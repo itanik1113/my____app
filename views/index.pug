@@ -1,0 +1,57 @@
+html 
+    head 
+        title user home page 
+        link(rel="stylesheet", href="/style.css")
+    body
+        main.page
+            header.page-header
+                div
+                    h1 User List
+                    p.subtitle Manage your users
+                a.button(href="/user/add") Add user
+            section.user-list
+                each user in users
+                    article.user-card
+                        div.user-info
+                            span Name
+                            strong= user.name
+                            span City: #{user.city}
+                        div.actions
+                            a.link(href=`/user/${user._id}/edit`) Edit
+                            button.link.delete-link.delete-trigger(type="button", data-delete-url=`/user/delete/${user._id}`, data-user-name=user.name) Delete
+
+        div#delete-modal.delete-modal(aria-hidden="true")
+            div.delete-dialog(role="dialog", aria-modal="true", aria-labelledby="delete-title")
+                h2#delete-title Delete user?
+                p#delete-message
+                div.modal-actions
+                    button#cancel-delete.modal-cancel(type="button") Cancel
+                    a#confirm-delete.button(href="#") Delete
+
+        script.
+            const deleteModal = document.getElementById('delete-modal');
+            const deleteMessage = document.getElementById('delete-message');
+            const confirmDelete = document.getElementById('confirm-delete');
+            const cancelDelete = document.getElementById('cancel-delete');
+
+            document.querySelectorAll('.delete-trigger').forEach((button) => {
+                button.addEventListener('click', () => {
+                    deleteMessage.textContent = `Are you sure you want to delete ${button.dataset.userName}?`;
+                    confirmDelete.href = button.dataset.deleteUrl;
+                    deleteModal.classList.add('is-open');
+                    deleteModal.setAttribute('aria-hidden', 'false');
+                    cancelDelete.focus();
+                });
+            });
+
+            const closeDeleteModal = () => {
+                deleteModal.classList.remove('is-open');
+                deleteModal.setAttribute('aria-hidden', 'true');
+            };
+
+            cancelDelete.addEventListener('click', closeDeleteModal);
+            deleteModal.addEventListener('click', (event) => {
+                if (event.target === deleteModal) closeDeleteModal();
+            });
+
+            

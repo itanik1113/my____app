@@ -1,0 +1,28 @@
+html
+  head
+    title= title
+
+  body(style="background-color:#ff0000; color:#ffffff;")
+    h1= message
+    p Welcome to our app!...
+
+    h2 User List
+
+    table(style="width:100%; border-collapse:collapse; background-color:#ff008c; color:#000000; text-align:center;")
+      thead
+        tr(style="background-color:#ffea00;")
+          th(style="border:1px solid black; padding:8px;") Name
+          th(style="border:1px solid black; padding:8px;") Age
+          th(style="border:1px solid black; padding:8px;") Email
+
+      tbody
+        tr
+          td(style="border:1px solid black; padding:8px;") John Doeee  
+          td(style="border:1px solid black; padding:8px;") 30
+          td(style="border:1px solid black; padding:8px;") john.doe@example.com
+
+        each user in users
+          tr(style="background-color:#ffea00;")
+            td(style="border:1px solid black; padding:8px;")= user.name
+            td(style="border:1px solid black; padding:8px;")= user.age
+            td(style="border:1px solid black; padding:8px;")= user.email
